@@ -1,9 +1,24 @@
 import { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import { AuthContext } from "../../providers/AuthProvider";
-
+import Swal from "sweetalert2";
 const Navbar = () => {
-  const {logOut} = useContext(AuthContext)
+  const { user, logOut } = useContext(AuthContext);
+
+  const handleLogOut = () => {
+    logOut()
+      .then(() => {
+        Swal.fire({
+          position: "top-center",
+          icon: "success",
+          color: "green",
+          title: "User Logged out successfully",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      })
+      .catch((err) => console.log(err.message));
+  };
   const navLinks = (
     <>
       <NavLink
@@ -78,18 +93,36 @@ const Navbar = () => {
       >
         <img src="/assets/icon/cart.png" alt="cart" className="w-14" />
       </NavLink>
-      <NavLink
-        to="/login"
-        className={({ isActive, isPending, isTransitioning }) =>
-          [
-            isPending ? "pending" : "",
-            isActive ? "active  text-primary" : "",
-            isTransitioning ? "transitioning" : "",
-          ].join(" ")
-        }
-      >
-        Login
-      </NavLink>
+      {user ? (
+        <>
+          <div className="avatar online">
+            <div className="w-24 rounded-full">
+              <img src={user?.photoURL || "https://i.ibb.co/5x6DN2n/blank-dp.png"} />
+            </div>
+          </div>
+          <h3>{user?.displayName}</h3>
+          <button
+            onClick={handleLogOut}
+            className="btn btn-circle capitalize btn-error"
+            title={user?.email}
+          >
+            Log Out
+          </button>
+        </>
+      ) : (
+        <NavLink
+          to="/login"
+          className={({ isActive, isPending, isTransitioning }) =>
+            [
+              isPending ? "pending" : "",
+              isActive ? "active  text-primary" : "",
+              isTransitioning ? "transitioning" : "",
+            ].join(" ")
+          }
+        >
+          Login
+        </NavLink>
+      )}
     </>
   );
   return (
@@ -119,7 +152,15 @@ const Navbar = () => {
               </svg>
             </label>
           </div>
-          <div className="flex-1 px-2 mx-2 logo text-xl md:text-3xl font-bold "><h1>Bistro Cafe <span className="block font-normal text-lg md:text-2xl leading-relaxed"> Restaurant</span>  </h1></div>
+          <div className="flex-1 px-2 mx-2 logo text-xl md:text-3xl font-bold ">
+            <h1>
+              Bistro Cafe{" "}
+              <span className="block font-normal text-lg md:text-2xl leading-relaxed">
+                {" "}
+                Restaurant
+              </span>{" "}
+            </h1>
+          </div>
           <div className="flex-none hidden lg:block">
             <div className="menu menu-horizontal gap-4 uppercase font-bold text-lg items-center">
               {/* Navbar menu content here */}

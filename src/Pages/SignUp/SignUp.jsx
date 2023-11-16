@@ -3,24 +3,45 @@ import { useForm } from "react-hook-form";
 
 import { AuthContext } from "../../providers/AuthProvider";
 import { FaFacebookF, FaGithub, FaGoogle } from "react-icons/fa6";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import Swal from "sweetalert2";
 
 const SignUp = () => {
-  const { createUser } = useContext(AuthContext);
+  const { createUser,updateUserProfile } = useContext(AuthContext);
+  const location = useLocation()
+  const navigate = useNavigate();
 
   const {
     register,
     handleSubmit,
-    formState: { errors },reset
+    formState: { errors }
   } = useForm();
 
   const onSubmit = (data) => {
     console.log(data);
     createUser(data.email,data.password)
     .then((userCredential) => {
+                updateUserProfile(data.name,data.photoUrl)
+                .then(()=>{
+                    console.log('Profile updated');
+                    Swal.fire({
+                        position: "top-center",
+                        icon: "success",
+                        color: "green",
+                        title: "Registration SUCCESS!",
+                        showConfirmButton: false,
+                        timer: 2000,
+                      });
+                    
+                      navigate(location?.state || '/');
+                })
+                .cathc(err=>{
+                    console.log(err.message);
+                })
                 const user = userCredential.user;
                 console.log(user);
+               
               })
               .catch((error) => {
                 const errorCode = error.code;
@@ -78,6 +99,19 @@ const SignUp = () => {
                   This field is required
                 </span>
               )}
+            </div>
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">Photo Url</span>
+              </label>
+              <input
+                type="photoUrl"
+                placeholder="Photo Url"
+                {...register("photoUrl")}
+                name="photoUrl"
+                className="input input-bordered"
+              />
+             
             </div>
             <div className="form-control">
               <label className="label">

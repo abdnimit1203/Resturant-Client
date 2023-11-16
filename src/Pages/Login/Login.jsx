@@ -5,10 +5,16 @@ import {
   validateCaptcha,
 } from "react-simple-captcha";
 import { AuthContext } from "../../providers/AuthProvider";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FaFacebookF, FaGithub, FaGoogle } from "react-icons/fa6";
 import { Helmet } from "react-helmet-async";
+import { FaArrowAltCircleLeft } from "react-icons/fa";
+import Swal from "sweetalert2";
 const Login = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+ 
+  console.log("Login page", location);
   const { signIn } = useContext(AuthContext);
   const captchaRef = useRef(null);
   const [disabled, setDisabled] = useState(true);
@@ -26,6 +32,16 @@ const Login = () => {
       .then((userCredential) => {
         const user = userCredential.user;
         console.log(user);
+        Swal.fire({
+          position: "top-center",
+          icon: "success",
+          color: "green",
+          title: "LOG IN SUCCESS!",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        form.reset();
+        navigate(location?.state || '/');
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -46,15 +62,24 @@ const Login = () => {
 
   return (
     <div className="hero min-h-screen bg-[url('/assets/others/authentication.png')]">
-        <Helmet>
-            <title>Login | Bistro Cafe</title>
-        </Helmet>
+      <Helmet>
+        <title>Login | Bistro Cafe</title>
+      </Helmet>
+
       <div className="hero-content flex-col lg:flex-row drop-shadow-xl bg-[url('/assets/others/authentication.png')] min-h-[70%] border">
         <div className="text-center lg:w-1/2 lg:text-left">
           <img src="/assets/others/authentication2.png" alt="" />
         </div>
         <div className="card lg:w-1/2  w-full max-w-md  bg-transparent">
           <form onSubmit={handleLogin} className="card-body">
+            <div>
+              <Link to={"/"} className="btn btn-sm btn-outline btn-success">
+                <FaArrowAltCircleLeft /> Go Home
+              </Link>
+            </div>
+            <div className="z-10">
+              <h2 className="text-2xl font-bold text-center">LOGIN</h2>
+            </div>
             <div className="form-control">
               <label className="label">
                 <span className="label-text">Email</span>
@@ -91,12 +116,12 @@ const Login = () => {
                 className="input input-bordered"
                 required
               />
-              <button
+              <input
+                type="button"
                 onClick={handleValidateCaptcha}
                 className="btn btn-outline btn-xs my-2 w-fit"
-              >
-                submit captcha
-              </button>
+                value="Submit captcha"
+              />
             </div>
             <div className="form-control mt-6">
               <button
