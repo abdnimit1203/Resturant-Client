@@ -4,9 +4,10 @@ import { AuthContext } from "../../providers/AuthProvider";
 import { BsCartCheckFill } from "react-icons/bs";
 
 import Swal from "sweetalert2";
+import useCart from "../../hooks/useCart";
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
-
+  const [cart] =useCart()
   const handleLogOut = () => {
     logOut()
       .then(() => {
@@ -99,7 +100,7 @@ const Navbar = () => {
         <button className="btn btn-ghost">
         <BsCartCheckFill className="text-3xl text-primary" />
 
-          <div className="badge badge-accent">+99</div>
+          <div className="badge badge-accent">+{cart?.length}</div>
         </button>
       </Link>
       {user ? (

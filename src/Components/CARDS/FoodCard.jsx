@@ -3,13 +3,15 @@ import useAuthContext from "../../hooks/useAuthContext";
 import Swal from "sweetalert2";
 import { useLocation, useNavigate } from "react-router-dom";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import useCart from "../../hooks/useCart";
 const FoodCard = ({ item }) => {
   const { name, image, price, recipe, _id } = item;
   const { user } = useAuthContext();
   const navigate = useNavigate();
   const location = useLocation();
   const axiosSecure = useAxiosSecure()
-  const handleAddToCart = (food) => {
+  const [,refetch] = useCart()
+  const handleAddToCart = () => {
     if (user && user.email) {
       const cartItem = {
         menuId: _id,
@@ -18,13 +20,16 @@ const FoodCard = ({ item }) => {
         image,
         price,
       };
-      console.log(food);
+  
       console.log(cartItem);
 
-      axiosSecure.post("/carts", cartItem).then((res) => {
+      axiosSecure.post("/carts", cartItem)
+      .then((res) => {
         console.log(res.data);
         if (res.data.insertedId) {
           Swal.fire(`"${name}" added to cart!`);
+          //refetch cart to update cart update counts
+          refetch()
         }
       });
     } else {
@@ -57,7 +62,7 @@ const FoodCard = ({ item }) => {
         <h3 className="font-bold text-xl">{name}</h3>
         <p className="">{recipe}</p>
         <button
-          onClick={() => handleAddToCart(item)}
+          onClick={handleAddToCart}
           className="btn  col-span-2  mx-auto my-2  border-b-4 border-b-[#BB8506] text-[#BB8506] hover:bg-black hover:text-[#BB8506]"
         >
           ADD TO CART

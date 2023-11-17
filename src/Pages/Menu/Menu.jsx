@@ -28,7 +28,7 @@ const Menu = () => {
             <Helmet>
                 <title>Bistro Cafe | Menu</title>
             </Helmet>
-            <Cover bgImage={"/assets/menu/banner3.jpg"} headerText={"OUR MENU"} />
+            <Cover bgImage={"/assets/menu/banner3.jpg"} headerText={"OUR MENU"} subText="Would you like to try a dish?" />
             <div className="mx-auto w-[80%]">
                 <PopularMenu/>
             </div>
