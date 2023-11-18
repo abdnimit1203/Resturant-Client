@@ -2,12 +2,15 @@ import { useContext } from "react";
 import { useForm } from "react-hook-form";
 
 import { AuthContext } from "../../providers/AuthProvider";
-import { FaFacebookF, FaGithub, FaGoogle } from "react-icons/fa6";
+
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import Swal from "sweetalert2";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
+import SocialLogin from "../../Components/SocialLogin/SocialLogin";
 
 const SignUp = () => {
+  const axiosPublic = useAxiosPublic()
   const { createUser,updateUserProfile } = useContext(AuthContext);
   const location = useLocation()
   const navigate = useNavigate();
@@ -16,7 +19,7 @@ const SignUp = () => {
     register,
     handleSubmit,
     formState: { errors }
-  } = useForm();
+  } = useForm(); 
 
   const onSubmit = (data) => {
     console.log(data);
@@ -24,7 +27,15 @@ const SignUp = () => {
     .then((userCredential) => {
                 updateUserProfile(data.name,data.photoUrl)
                 .then(()=>{
-                    console.log('Profile updated');
+                  //create user entry in the database
+                    const userInfo ={
+                      name: data.name,
+                      email: data.email
+                    }
+                  axiosPublic.post('/users', userInfo)
+                  .then(res=>{
+                    if(res.data?.insertedId){
+                      console.log('user added to the database');
                     Swal.fire({
                         position: "top-center",
                         icon: "success",
@@ -35,8 +46,11 @@ const SignUp = () => {
                       });
                     
                       navigate(location?.state || '/');
+                    }
+                  })
+                    
                 })
-                .cathc(err=>{
+                .catch(err=>{
                     console.log(err.message);
                 })
                 const user = userCredential.user;
@@ -171,17 +185,7 @@ const SignUp = () => {
             </p>
             <p>Or sign in with</p>
 
-            <div className="flex justify-center items-center gap-6 text-3xl">
-              <button>
-                <FaFacebookF className="border-2 rounded-full border-black p-1" />
-              </button>
-              <button>
-                <FaGoogle className="border-2 rounded-full border-black p-1" />
-              </button>
-              <button>
-                <FaGithub className="border-2 rounded-full border-black p-1" />
-              </button>
-            </div>
+           <SocialLogin></SocialLogin>
           </div>
         </div>
       </div>

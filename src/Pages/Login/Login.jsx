@@ -6,10 +6,11 @@ import {
 } from "react-simple-captcha";
 import { AuthContext } from "../../providers/AuthProvider";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { FaFacebookF, FaGithub, FaGoogle } from "react-icons/fa6";
+
 import { Helmet } from "react-helmet-async";
 import { FaArrowAltCircleLeft } from "react-icons/fa";
 import Swal from "sweetalert2";
+import SocialLogin from "../../Components/SocialLogin/SocialLogin";
 const Login = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -141,19 +142,11 @@ const Login = () => {
               </p>
               <p>Or sign in with</p>
 
-              <div className="flex justify-center items-center gap-6 text-3xl">
-                <button>
-                  <FaFacebookF className="border-2 rounded-full border-black p-1" />
-                </button>
-                <button>
-                  <FaGoogle className="border-2 rounded-full border-black p-1" />
-                </button>
-                <button>
-                  <FaGithub className="border-2 rounded-full border-black p-1" />
-                </button>
-              </div>
+             
             </div>
+
           </form>
+          <SocialLogin></SocialLogin>
         </div>
       </div>
     </div>

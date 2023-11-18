@@ -1,11 +1,13 @@
 import { AiFillHome, AiOutlineMenuFold } from "react-icons/ai";
 import { BsCalendar, BsCart2, BsMenuButton } from "react-icons/bs";
-import { FaHome, FaMoneyBillWave } from "react-icons/fa";
+import { FaBars, FaBook, FaHome, FaMoneyBillWave, FaUsers, FaUtensilSpoon } from "react-icons/fa";
 import { NavLink, Outlet } from "react-router-dom";
 import useCart from "../hooks/useCart";
 
 const Dashboard = () => {
   const [cart] = useCart()
+  //TODO: get admin data from database
+  const isAdmin = true
   return (
     <div className="drawer lg:drawer-open">
       <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
@@ -24,9 +26,8 @@ const Dashboard = () => {
           aria-label="close sidebar"
           className="drawer-overlay"
         ></label>
-        <ul className="menu p-4 w-80 min-h-full bg-yellow-600 text-base-content font-semibold text-lg space-y-2">
-          {/* Sidebar content here */}
-          <li>
+        <ul className="menu p-4 w-80 min-h-full bg-yellow-600 text-base-content font-semibold text-lg space-y-2 uppercase">
+        <li>
             <div className="flex-1 px-2 mx-2 logo text-xl md:text-3xl font-bold ">
               <h3>
                 Bistro Cafe
@@ -36,6 +37,63 @@ const Dashboard = () => {
               </h3>
             </div>
           </li>
+          {/* Sidebar content here */}
+          {isAdmin? 
+          <>
+          <li>
+            <NavLink
+              to={"admin-home"}
+              className={({ isActive, isPending }) =>
+                isPending ? "pending" : isActive ? "active" : ""
+              }
+            >
+              <FaHome />Admin Home
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to={"add-items"}
+              className={({ isActive, isPending }) =>
+                isPending ? "pending" : isActive ? "active" : ""
+              }
+            >
+              <FaUtensilSpoon />ADD ITEMS
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to={"manage-items"}
+              className={({ isActive, isPending }) =>
+                isPending ? "pending" : isActive ? "active" : ""
+              }
+            >
+              <FaBars />MANAGE ITEMS
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to={"manage-bookings"}
+              className={({ isActive, isPending }) =>
+                isPending ? "pending" : isActive ? "active" : ""
+              }
+            >
+              <FaBook />MANAGE Bookings
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to={"all-users"}
+              className={({ isActive, isPending }) =>
+                isPending ? "pending" : isActive ? "active" : ""
+              }
+            >
+              <FaUsers />All Users
+            </NavLink>
+          </li>
+          </>
+          :
+          <>
+          
           <li>
             <NavLink
               to={"home"}
@@ -78,7 +136,7 @@ const Dashboard = () => {
           </li>
           <li>
             <NavLink
-              to="/add-review"
+              to="/dashboard/add-review"
               className={({ isActive, isPending }) =>
                 isPending ? "pending" : isActive ? "active" : ""
               }
@@ -86,6 +144,7 @@ const Dashboard = () => {
               Add Review
             </NavLink>
           </li>
+          </>}
           <div className="divider border-white"></div>
           <li>
             <NavLink
