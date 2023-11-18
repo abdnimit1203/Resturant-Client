@@ -96,7 +96,7 @@ const Navbar = () => {
       >
         <img src="/assets/icon/cart.png" alt="cart" className="w-14" />
       </NavLink> */}
-      <Link to={"/cart"}>
+      <Link to={"/dashboard/cart"}>
         <button className="btn btn-ghost">
         <BsCartCheckFill className="text-3xl text-primary" />
 

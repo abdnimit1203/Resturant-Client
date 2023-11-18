@@ -8,6 +8,8 @@ import Login from "../Pages/Login/Login";
 import SignUp from "../Pages/SignUp/SignUp";
 import PrivateRoute from "./PrivateRoute";
 import Cart from "../Pages/Cart/Cart";
+import Dashboard from "../Layout/Dashboard";
+import DashboardHome from "../Pages/Dashboard/DashboardHome";
 
 export const  router = createBrowserRouter([
     {
@@ -16,7 +18,7 @@ export const  router = createBrowserRouter([
       errorElement: <ErrorPage/>,
       children:[
         {
-            index: true,
+            path: "/",
             element:<Home/>
         },
         {
@@ -27,10 +29,7 @@ export const  router = createBrowserRouter([
             path: "/our-shop/:category",
             element: <OurShop/> 
         },
-        {
-            path: "/cart",
-            element:<Cart/>
-        },
+     
         {
             path: "/login",
             element:<Login/>
@@ -42,4 +41,19 @@ export const  router = createBrowserRouter([
         
       ]
     },
+    {
+        path: 'dashboard',
+        element: <Dashboard></Dashboard>,
+        children:[
+            {
+                index:true,
+                path: "home",
+                element: <DashboardHome/>
+            },
+            {
+                path:'cart',
+                element: <Cart></Cart>
+            }
+        ]
+    }
   ]);
