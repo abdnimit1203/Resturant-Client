@@ -3,11 +3,12 @@ import { BsCalendar, BsCart2, BsMenuButton } from "react-icons/bs";
 import { FaBars, FaBook, FaHome, FaMoneyBillWave, FaUsers, FaUtensilSpoon } from "react-icons/fa";
 import { NavLink, Outlet } from "react-router-dom";
 import useCart from "../hooks/useCart";
+import useAdmin from "../hooks/useAdmin";
 
 const Dashboard = () => {
   const [cart] = useCart()
   //TODO: get admin data from database
-  const isAdmin = true
+  const [isAdmin] = useAdmin()
   return (
     <div className="drawer lg:drawer-open">
       <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
