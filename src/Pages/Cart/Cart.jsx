@@ -3,6 +3,7 @@ import { AiTwotoneDelete } from "react-icons/ai";
 import SectionTitle from "../../Components/Titles/SectionTitle";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import { Link } from "react-router-dom";
 
 const Cart = () => {
   const [cart, refetch] = useCart();
@@ -43,7 +44,13 @@ const Cart = () => {
       <div className="flex  text-2xl font-semibold justify-between">
         <h3>Total Item: {cart.length}</h3>
         <h3>Total Price: {totalPrice}</h3>
-        <button className="btn btn-secondary btn-sm">Pay</button>
+       {cart?.length ? <Link to={'/dashboard/reservation'}>
+        
+        <button className="btn btn-secondary btn-sm text-white">Pay</button>
+        </Link>
+        :
+        <button disabled={true} className="btn btn-secondary btn-sm text-white">Pay</button>
+      }
       </div>
       <div className="my-10 ">
         <div className="overflow-x-auto rounded-xl border">
