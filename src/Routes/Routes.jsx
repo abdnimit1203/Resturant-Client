@@ -16,6 +16,7 @@ import AddItems from "../Pages/Dashboard/AddItems";
 import ManageItems from "../Pages/Dashboard/ManageItems";
 import UpdateItem from "../Pages/Dashboard/UpdateItem";
 import Payment from "../Pages/Dashboard/UserDashboard/Payment";
+import PaymentHistory from "../Pages/Dashboard/UserDashboard/PaymentHistory";
 
 export const  router = createBrowserRouter([
     {
@@ -63,6 +64,10 @@ export const  router = createBrowserRouter([
             {
                 path:'reservation',
                 element: <Payment></Payment>
+            },
+            {
+                path:'payment-history',
+                element: <PaymentHistory></PaymentHistory>
             },
             {
                 path:'all-users',
