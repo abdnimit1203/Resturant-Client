@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 
 const ManageItems = () => {
   const [menu, isLoading,refetch] = useMenu();
-  console.log(menu);
+  // console.log(menu);
 const axiosSecure = useAxiosSecure()
 
   const handleDelete = (id) => {

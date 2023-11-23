@@ -97,7 +97,7 @@ const Dashboard = () => {
           
           <li>
             <NavLink
-              to={"home"}
+              to={""}
               className={({ isActive, isPending }) =>
                 isPending ? "pending" : isActive ? "active" : ""
               }

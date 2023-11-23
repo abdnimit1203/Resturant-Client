@@ -5,8 +5,10 @@ import { BsCartCheckFill } from "react-icons/bs";
 
 import Swal from "sweetalert2";
 import useCart from "../../hooks/useCart";
+import useAdmin from "../../hooks/useAdmin";
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
+  const [isAdmin] = useAdmin()
   const [cart] =useCart()
   const handleLogOut = () => {
     logOut()
@@ -48,6 +50,22 @@ const Navbar = () => {
       >
         Contact Us
       </NavLink>
+      {
+      
+      isAdmin?
+        <NavLink
+        to="/dashboard/admin-home"
+        className={({ isActive, isPending, isTransitioning }) =>
+          [
+            isPending ? "pending" : "",
+            isActive ? "active  text-primary" : "",
+            isTransitioning ? "transitioning" : "",
+          ].join(" ")
+        }
+      >
+        Dashboard
+      </NavLink>
+      :
       <NavLink
         to="/dashboard"
         className={({ isActive, isPending, isTransitioning }) =>
@@ -60,6 +78,8 @@ const Navbar = () => {
       >
         Dashboard
       </NavLink>
+      
+    }
       <NavLink
         to="/our-menu"
         className={({ isActive, isPending, isTransitioning }) =>
