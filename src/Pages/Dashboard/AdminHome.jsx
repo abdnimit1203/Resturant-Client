@@ -5,10 +5,10 @@ import { BsCarFront, BsWallet } from "react-icons/bs";
 import { FaMap, FaProductHunt, FaUsers } from "react-icons/fa";
 
 import useAxiosPublic from "../../hooks/useAxiosPublic";
-import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid ,PieChart, Pie, Sector, ResponsiveContainer, Legend} from "recharts";
+import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid ,PieChart, Pie,  Legend} from "recharts";
 
-const colors = ["#925ed4", "#00C49F", "#FFB328",  "blue", "red", "pink", 'orange'];
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042',"red", "pink", 'orange'];
+const colors = ["#5cb3fd", "#00C49F", "#FFB328",  "#a431f3", "red", "pink", 'orange'];
+const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#b345ff',"red", "pink", 'orange'];
 const AdminHome = () => {
   const { user } = useAuthContext();
   const axiosSecure = useAxiosSecure();
@@ -31,7 +31,7 @@ const AdminHome = () => {
     },
   });
   console.log(category);
-const pieCategory = category.map(data=>{
+const pieCategory = category?.map(data=>{
     return {name: data.category, count: data.count}
 })
   // bar chart custom functions
@@ -56,7 +56,7 @@ const pieCategory = category.map(data=>{
 
   // pie chart func
   const RADIAN = Math.PI / 180;
-const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
+const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent }) => {
   const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
   const x = cx + radius * Math.cos(-midAngle * RADIAN);
   const y = cy + radius * Math.sin(-midAngle * RADIAN);
@@ -148,7 +148,7 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
           ></iframe>
         </div>
       </div>
-      <div className="flex">
+      <div className="flex justify-around">
         <div>
           <div className="my-10">
             <h2>Charts: Categoty Counts</h2>
@@ -185,18 +185,17 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
             data={pieCategory}
             cx="50%"
             cy="50%"
-          
             labelLine={false}
             label={renderCustomizedLabel}
-            outerRadius={100}
+            
             fill="#8884d8"
             dataKey="count"
           >
-            {pieCategory.map((entry, index) => (
+            {pieCategory?.map((entry, index) => (
               <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
             ))}
           </Pie>
-          <Legend></Legend>
+          <Legend ></Legend>
         </PieChart>
         </div>
       </div>
